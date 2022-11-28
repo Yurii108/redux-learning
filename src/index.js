@@ -1,42 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { legacy_createStore as createStore, bindActionCreators } from 'redux';
+import { legacy_createStore as createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import reducer from './reducer';
-import * as actions from './actions';
+import App from './Components/App';
 
 const store = createStore(reducer);
-
-const { dispatch, subscribe, getState } = store;
-
-const update = () => {
-  document.getElementById('counter').textContent = getState().value;
-}
-
-subscribe(update);
-
-// const bindActionCreator = (creator, dispatch) => (...ards) => {
-//   return dispatch(creator(...ards));
-// }; 
-// This is bindActionCreators method which have in Redux
-
-const {inc, dec, rnd} = bindActionCreators(actions, dispatch);
-// const decDispatch = bindActionCreators(dec, dispatch);
-// const rndDispatch = bindActionCreators(rnd, dispatch);
-
-document.getElementById('inc').addEventListener('click', inc)
-document.getElementById('dec').addEventListener('click', dec)
-document.getElementById('rnd').addEventListener('click', () => {
-  const value = Math.floor(Math.random() * 10);
-  rnd(value);
-})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <>
-
-    </>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
+
+
+
+
 
